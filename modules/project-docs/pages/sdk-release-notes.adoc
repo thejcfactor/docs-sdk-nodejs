@@ -48,6 +48,12 @@ $ npm install couchbase@4.3.0
 
 http://docs.couchbase.com/sdk-api/couchbase-node-client-4.3.0/[API Reference]
 
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} 1.0.0-dp.15 (or later).
+
 ==== Enhancements
 
 * https://issues.couchbase.com/browse/JSCBC-1226[JSCBC-1226]:
@@ -96,6 +102,12 @@ $ npm install couchbase@4.2.11
 ----
 
 http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.11/[API Reference]
+
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} 1.0.0-dp.15 (or later).
 
 ==== Fixes
 

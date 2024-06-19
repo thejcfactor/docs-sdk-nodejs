@@ -26,10 +26,6 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 |===
 | Node.js LTS Version | LTS Support EOL | Couchbase SDK Versions Supported
 
-| 16
-| until 2023-09-11
-| from 3.2.0
-
 | 18
 | until 2025-04-30
 | from 4.2.5
@@ -37,6 +33,10 @@ Node.js versions that have reached their https://endoflife.date/nodejs[End-of-Li
 | 20
 | until 2026-04-30
 | from 4.2.5
+
+| 22
+| until 2027-04-30
+| from 4.4.0
 
 |===
 
@@ -75,7 +75,7 @@ M1 ARM  architecture is fully supported in the .Node.js SDK.
 [discrete]
 === ARM Processor Support
 
-AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+ (from SDK 1.4).
+AWS Amazon Graviton2, Apple M1 ARM processors, and ARMv8 on Ubuntu 20.04+.
 ****
 
 
@@ -120,7 +120,7 @@ It is best to upgrade either the SDK or the Couchbase version you are using.
 .Recommended SDK per Server Version Matrix
 [#table_sdk_versions]
 |===
-| | 3.2, 4.0 - 4.2 | 4.3
+| | 3.2, 4.0 - 4.2 | 4.3 - 4.4
 
 | *Server 7.0 - 7.2*
 | *✔*
@@ -209,6 +209,3 @@ include::{version-common}@sdk:shared:partial$interface-stability-pars.adoc[tag=i
 === Older SDK Versions
 
 include::{version-common}@sdk:shared:partial$archive.adoc[tag=link]
-
-
-

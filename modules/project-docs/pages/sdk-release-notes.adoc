@@ -28,12 +28,33 @@ $ npm install couchbase@4.2.11
 
 
 [#latest-release]
-== Node.js SDK 4.3 Releases
+== Node.js SDK 4.4 Releases
 
 We always recommend using the latest version of the SDK -- it contains all of the latest security patches and support for new and upcoming features.
 All patch releases for each dot minor release should be API compatible, and safe to upgrade;
 any changes to expected behavior are noted in the release notes that follow.
 
+
+
+=== Version 4.4.0 (???? June 2024)
+
+Version 4.4.0 is fourth minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+// Most notably the 4.4.0 release adds support for ... when using the SDK with Couchbase Server 7.6.2.
+
+[source,bash]
+----
+$ npm install couchbase@4.4.0
+----
+
+http://docs.couchbase.com/sdk-api/couchbase-node-client-4.4.0/[API Reference]
+
+==== Known Issues
+
+// ??
+
+
+
+== Node.js SDK 4.3 Releases
 
 === Version 4.3.1 (18 April 2024)
 

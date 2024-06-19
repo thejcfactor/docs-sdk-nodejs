@@ -1,19 +1,19 @@
 name: nodejs-sdk
-version: '4.3'
+version: '4.4'
 title: Node.js SDK
 start_page: hello-world:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    server_version: '7.6'
-    sdk_current_version: '4.3.0'
-    sdk_dot_minor: '4.3'
+    server_version: '7.6.2'
+    sdk_current_version: '4.4.0'
+    sdk_dot_minor: '4.4'
     sdk_dot_major: 4.x'
     version-server: '7.6'
-    version-common: '7.5'
+    version-common: '7.6'
     name_platform: '  node.js'
     name-sdk: 'Node.js SDK'
-    sdk_api: '3.5'
+    sdk_api: '3.6'
     sdk-api-link: https://docs.couchbase.com/sdk-api/couchbase-node-client/modules.html
     sdk-gh-link: https://github.com/couchbase/couchnode

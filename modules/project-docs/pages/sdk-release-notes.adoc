@@ -36,10 +36,10 @@ any changes to expected behavior are noted in the release notes that follow.
 
 
 
-=== Version 4.4.0 (???? June 2024)
+=== Version 4.4.0 (27 June 2024)
 
-Version 4.4.0 is fourth minor release of the fourth generation Node.js SDK, bringing a number of improvements.
-// Most notably the 4.4.0 release adds support for ... when using the SDK with Couchbase Server 7.6.2.
+Version 4.4.0 is next minor release of the fourth generation Node.js SDK, bringing a number of improvements.
+Most notably the 4.4.0 release adds support for base64 encoded vector types when using the SDK with Couchbase Server 7.6.2.
 
 [source,bash]
 ----
@@ -48,10 +48,53 @@ $ npm install couchbase@4.4.0
 
 http://docs.couchbase.com/sdk-api/couchbase-node-client-4.4.0/[API Reference]
 
+
+==== Fixes
+
+* https://issues.couchbase.com/browse/JSCBC-1263[JSCBC-1263]:
+Fixed `VectorQuery` validation to prevent empty `fieldName`.
+
+==== Enhancements
+
+* https://issues.couchbase.com/browse/JSCBC-1262[JSCBC-1262]:
+Added support for base64 encoded vector types.
+
 ==== Known Issues
 
-// ??
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
 
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
+==== Underlying C++ SDK Core Changes
+
+===== Enhancements
+
+* https://issues.couchbase.com/browse/CXXCBC-381[CXXCBC-381]:
+Updated `transactions_context` and `attempt_context` to use `std::shared_ptr` (https://github.com/couchbaselabs/couchbase-cxx-client/pull/590[#590]).
+
+===== Fixes
+
+* https://issues.couchbase.com/browse/CXXCBC-445[CXXCBC-445]:
+Updated HTTP session logic to return `request_canceled` on IO error (https://github.com/couchbaselabs/couchbase-cxx-client/pull/568[#568]).
+
+* https://issues.couchbase.com/browse/CXXCBC-511[CXXCBC-511]:
+Updated HTTP session logic to prevent use of session if idle timer has expired (https://github.com/couchbaselabs/couchbase-cxx-client/pull/565[#565]).
+
+* https://issues.couchbase.com/browse/CXXCBC-517[CXXCBC-517]:
+Added HTTP session retries when client fails to resolve hostnames (https://github.com/couchbaselabs/couchbase-cxx-client/pull/589[#589]).
+
+* https://issues.couchbase.com/browse/CXXCBC-518[CXXCBC-518]:
+Fixed preferred node logic to handle alternate addresses (https://github.com/couchbaselabs/couchbase-cxx-client/pull/574[#574]).
+
+* https://issues.couchbase.com/browse/CXXCBC-523[CXXCBC-523]:
+Cleaned up config log output when `dump_configuration` is enabled (https://github.com/couchbaselabs/couchbase-cxx-client/pull/577[#577]).
+
+* Fixed config poll to skip config fetch if bucket does not have any sessions (https://github.com/couchbaselabs/couchbase-cxx-client/pull/573[#573]).
+
+* Cleaned up `attempt_context_impl` implementation (https://github.com/couchbaselabs/couchbase-cxx-client/pull/586[#586]).
 
 
 == Node.js SDK 4.3 Releases
@@ -79,6 +122,14 @@ Fixed how the SDK handles the expiry value for mutation operations (if available
 
 * https://issues.couchbase.com/browse/JSCBC-1253[JSCBC-1253]:
 Added support for scoped eventing functions.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
 
 
 ==== Underlying C++ SDK Core Changes
@@ -138,6 +189,18 @@ Updated C++ core for transactions metadata bucket improvements.
 * https://issues.couchbase.com/browse/JSCBC-1251[JSCBC-1251]:
 Updated search API for SDK API 3.5 support.
 
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} 1.0.0-dp.15 (or later).
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
 ==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-336[CXXCBC-336]:
@@ -176,12 +239,6 @@ $ npm install couchbase@4.2.11
 
 http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.11/[API Reference]
 
-==== Known Issues
-
-* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
-This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
-The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} 1.0.0-dp.15 (or later).
-
 ==== Fixes
 
 * https://issues.couchbase.com/browse/JSCBC-1193[JSCBC-1193]:
@@ -206,6 +263,19 @@ Fixed `ViewRow` parsing when handling results from {cpp} core.
 
 * https://issues.couchbase.com/browse/JSCBC-1238[JSCBC-1238]:
 Updated view index management API to use {cpp} core.
+
+==== Known Issues
+
+* https://issues.couchbase.com/browse/CXXCBC-447[CXXCBC-447]:
+This version of the SDK will not be able to connect to a cluster utilizing alternate addressing.
+The recommendation is to wait to upgrade to a version of the {name-sdk} that contains {cpp} 1.0.0-dp.15 (or later).
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
 
 ==== Underlying C++ SDK Core Changes
 
@@ -251,6 +321,15 @@ http://docs.couchbase.com/sdk-api/couchbase-node-client-4.2.10/[API Reference]
 * https://issues.couchbase.com/browse/JSCBC-1227[JSCBC-1227]:
 Added support for `maxTTL` value of -1 for collection "no expiry".
 
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
+
 ==== Underlying C++ SDK Core Changes
 
 * https://issues.couchbase.com/browse/CXXCBC-284[CXXCBC-284]:
@@ -283,6 +362,15 @@ Added improvements for Faster Failover and Config Push.
 
 * https://issues.couchbase.com/browse/JSCBC-1221[JSCBC-1221]:
 Added support for new KV error code to raise `DocumentNotLockedError`.
+
+==== Known Issues
+
+* http://issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
+
 
 ==== Underlying C++ SDK Core Changes
 

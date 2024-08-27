@@ -38,7 +38,7 @@ any changes to expected behavior are noted in the release notes that follow.
 === Version 4.4.1 (23 August 2024)
 
 Version 4.4.1 is the next patch release of the fourth generation Node.js SDK, bringing a number of improvements.
-Most notably the 4.4.1 release adds support for Alpine ARM environments (See the https://docs.couchbase.com/nodejs-sdk/current/project-docs/compatibility.html#os-compatibility[OS Compatibility docs for details]).
+Most notably the 4.4.1 release adds support for Alpine ARM environments (See the xref:compatibility.adoc#os-compatibility[OS Compatibility docs for details]).
 
 [source,bash]
 ----
@@ -65,7 +65,7 @@ Distributed tracing is not yet supported.
 
 ===== Enhancements
 
-* Improve logging of DNS client
+* Improved logging of DNS client
 (https://github.com/couchbase/couchbase-cxx-client/pull/634[#634]).
 
 * https://issues.couchbase.com/browse/CXXCBC-568/[CXXCBC-568]:

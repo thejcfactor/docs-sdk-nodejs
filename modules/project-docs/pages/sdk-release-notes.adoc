@@ -72,9 +72,10 @@ Distributed tracing is not yet supported.
 
 ===== Fixes
 
-* http://jira.issues.couchbase.com/browse/CXXCBC-577[CXXCBC-577]: Reduce duplicated code in http_component (https://github.com/couchbase/couchbase-cxx-client/pull/657[#657]).
-* http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552]: Cleanup network selection options (https://github.com/couchbase/couchbase-cxx-client/pull/651[#651]). Deprecates `behavior_options#network()` in favor to `network_options#preferred_network()`
-* http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]: Ensure all HTTP sessions are stopped when closing the core cluster (https://github.com/couchbase/couchbase-cxx-client/pull/648[#648]).
+* http://jira.issues.couchbase.com/browse/CXXCBC-577[CXXCBC-577],
+http://jira.issues.couchbase.com/browse/CXXCBC-552[CXXCBC-552], &
+http://jira.issues.couchbase.com/browse/CXXCBC-576[CXXCBC-576]:
+See xref:cxx-sdk:project-docs:sdk-release-notes.adoc#version-102-23-september-2024[{cpp} 1.0.2 release notes].
 
 
 === Version 4.4.1 (23 August 2024)

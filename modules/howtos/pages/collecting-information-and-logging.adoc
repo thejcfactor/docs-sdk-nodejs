@@ -42,6 +42,23 @@ export CBPPLOGLEVEL=<log-level>
 set CBPPLOGLEVEL=<log-level>
 ----
 
+Version 4.4.3 of the SDK introduces the `CBPPLOGFILE` variable that can be used in conjunction with `CBPPLOGLEVEL`.
+Set `CBPPLOGFILE` to a filename in order to have the log output to a file (instead of stdout).
+
+In the command line environment, the `CBPPLOGFILE` variable is set as follows:
+
+.GNU/Linux and Mac
+[source,console]
+----
+export CBPPLOGFILE=<filename>
+----
+
+.Windows
+[source,console]
+----
+set CBPPLOGFILE=<filename>
+----
+
 == Log Levels
 
 You can increase the log level for greater verbosity (more information) in the logs:
@@ -50,8 +67,8 @@ You can increase the log level for greater verbosity (more information) in the l
 * error -- error messages.
 * warn -- error notifications.
 * info -- useful notices, not often.
-* debug -- diagnostic information, required to investigate problems.
-* trace -- the most verbose level.
+* debug -- diagnostic information, minimum level required to investigate problems.
+* trace -- detailed diagnostic information, often required to investigate problems.
 
 When logging is turned on, the SDK will output messages similar to this:
 

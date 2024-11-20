@@ -24,7 +24,10 @@ The Node.js SDK allows logging via the `CBPPLOGLEVEL` environment variable.
 // Alternatively you can set the `LCB_LOGLEVEL` environment variable to a number between 1 and 5,
 // with 5 being the most verbose and 1 being the least verbose.  Also, the query parameter
 // `console_log_level` can be used to set the log level.
-Note that these logs will go to `stdout` (standard output).
+Note that these logs will go to `stderr` --
+on most developers' laptops, `stderr` will be redirected to `stdout` (standard output), and displayed in the terminal running the app.
+Redirection to a log file may depend upon which shell you use.
+For the `BASH` shell, for example, see the https://tldp.org/LDP/abs/html/io-redirection.html[Bash Scripting Guide^].
 
 === Environmental Settings
 
@@ -43,7 +46,7 @@ set CBPPLOGLEVEL=<log-level>
 ----
 
 Version 4.4.3 of the SDK introduces the `CBPPLOGFILE` variable that can be used in conjunction with `CBPPLOGLEVEL`.
-Set `CBPPLOGFILE` to a filename in order to have the log output to a file (instead of stdout).
+Set `CBPPLOGFILE` to a filename in order to have the log output to a file (instead of `stderr`).
 
 In the command line environment, the `CBPPLOGFILE` variable is set as follows:
 
@@ -113,7 +116,9 @@ When logging is turned on, the SDK will output messages similar to this:
 // This is supplied for messages that relate to the state of a particular connection.
 // |===
 
+////
 == Additional Information
 
 The Node.js SDK internally uses the libcouchbase API (since 4.0 implemented by the Couchbase++ library) to perform operations.
 If more in depth debug information is required such as Stack Traces or Memory Leak Detection, you can find more information on how to achieve this in xref:c-sdk:howtos:collecting-information-and-logging.adoc[the C SDK documentation].
+////

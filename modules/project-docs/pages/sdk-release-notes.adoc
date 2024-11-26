@@ -80,7 +80,6 @@ Binary transactions can now use the `RawBinaryTranscoder`.
 https://jira.issues.couchbase.com/browse/JSCBC-1306[JSCBC-1306]:
 Updated API Reference and README.
 
-
 ==== Fixes
 
 * https://jira.issues.couchbase.com/browse/JSCBC-1286[JSCBC-1286]:
@@ -107,6 +106,14 @@ The internal logic for this has been updated, with an undefined field now allowe
 
 * https://jira.issues.couchbase.com/browse/JSCBC-1298[JSCBC-1298]:
 Removing the chained `promise.then().callback()` in `PromiseHelper` will now prevent the double invocation of the callback.
+
+==== Known Issues
+
+* http://jira.issues.couchbase.com/browse/JSCBC-1011[JSCBC-1011]:
+Core IO logging is not forwarded through to Node.js.
+
+* http://jira.issues.couchbase.com/browse/JSCBC-1040[JSCBC-1040]:
+Distributed tracing is not yet supported.
 
 
 ==== Underlying {cpp} SDK Core Changes

@@ -107,6 +107,10 @@ See https://github.com/couchbase/couchnode#aws-lambda[README] for details.
 ====
 ////
 
+=== SSL Library
+
+The Node.js SDK binaries are statically link against `BoringSSL`,
+and there is no need to separately install any SSL library.
 
 
 == Couchbase Server Compatibility

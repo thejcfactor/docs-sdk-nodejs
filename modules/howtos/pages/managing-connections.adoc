@@ -20,6 +20,30 @@ The simplest way to create a `Cluster` object is to `const cluster = couchbase.c
 include::example$auth.js[tag=rbac-auth,indent=0]
 ----
 
+
+For a , substitute the `localhost` line with:
+
+.Connceting to a Capella cluster
+[source,javascript]
+----
+const clusterConnStr = 'couchbases://cb.<your-endpoint>.cloud.couchbase.com'
+----
+
+`couchbases://` -- note the final `s` -- is needed for SSL.
+The Capella client certificate is included with the SDK.
+
+.Connecting to a self-managed Couchbase cluster
+[source,javascript]
+----
+cluster = await couchbase.connect('couchbases://nodeA.example.com', {
+  trustStorePath: '/path/to/ca/certificates.pem',
+  username: 'Administrator',
+  password: 'password',
+})
+----
+
+// See <<connection-strings,below>> for more examples of connection strings.
+
 NOTE: If you are connecting to a version of Couchbase Server older than 6.5, it will be more efficient if the addresses are those of data (KV) nodes.
 You will in any case, with 6.0 and earlier, need to open a ``Bucket` instance before connecting to any other HTTP services (such as _Query_ or _Search_.
 

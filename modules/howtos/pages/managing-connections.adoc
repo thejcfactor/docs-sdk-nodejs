@@ -279,9 +279,10 @@ E.....@.@.............+....Z.'yZ..#........
 ====
 
 
+// DNS-SRV
 // == Using DNS SRV records
 
-include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv]
+include::{version-common}@sdk:shared:partial$dnssrv-pars.adoc[tag=dnssrv-rev]
 
 The Node.js SDK always tries to use the SRV records, if the connection string contains a single hostname and the feature is not disabled explicitly with connection string option `dnssrv=off`.
 

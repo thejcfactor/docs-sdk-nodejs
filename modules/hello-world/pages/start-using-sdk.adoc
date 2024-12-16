@@ -294,6 +294,32 @@ include::devguide:example$nodejs/capella_connection_crud.ts[tag=collection,inden
 Couchbase documents are organized into buckets, scopes, and collections.
 https://en.wikipedia.org/wiki/CRUD[CRUD operations^] -- Create, Read, Update, Delete -- can be performed upon documents in a collection.
 
+=== JSON
+
+We'll create a regular javascript object to start with:
+
+[tabs]
+====
+
+Javascript::
++
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/capella_connection_crud.js[tag=json,indent=0]
+----
+--
+
+Typescript::
++
+--
+[source,typescript]
+----
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=json,indent=0]
+----
+--
+
+====
 
 === Insert (Create) and Upsert
 
@@ -313,7 +339,7 @@ Javascript::
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/crud-ops.js[tag=upsert,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=upsert,indent=0]
 ----
 --
 
@@ -322,7 +348,7 @@ Typescript::
 --
 [source,typescript]
 ----
-include::devguide:example$nodejs/crud-ops.ts[tag=upsert,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=upsert,indent=0]
 ----
 --
 
@@ -340,7 +366,7 @@ Javascript::
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/crud-ops.js[tag=get,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=get,indent=0]
 ----
 --
 
@@ -349,7 +375,7 @@ Typescript::
 --
 [source,typescript]
 ----
-include::devguide:example$nodejs/crud-ops.ts[tag=get,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=get,indent=0]
 ----
 --
 
@@ -366,7 +392,7 @@ Javascript::
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/crud-ops.js[tag=replace-options,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=replace,indent=0]
 ----
 --
 
@@ -375,7 +401,7 @@ Typescript::
 --
 [source,typescript]
 ----
-include::devguide:example$nodejs/crud-ops.ts[tag=replace-options,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=replace,indent=0]
 ----
 --
 
@@ -396,7 +422,7 @@ Javascript::
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/crud-ops.js[tag=remove,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=remove,indent=0]
 ----
 --
 
@@ -405,7 +431,7 @@ Typescript::
 --
 [source,typescript]
 ----
-include::devguide:example$nodejs/crud-ops.ts[tag=remove,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=remove,indent=0]
 ----
 --
 

@@ -1,74 +1,127 @@
-= Start Using the Node.js SDK
-:description: The Couchbase Node.js SDK enables you to interact with a Couchbase Server or Capella cluster from the Node.js runtime, using TypeScript or JavaScript.
-:page-aliases: ROOT:getting-started,ROOT:start-using,ROOT:hello-couchbase,ROOT:start-using-sdk
-:page-toclevels: 2
-:page-pagination: next
-:page-topic-type: tutorial
+= Hello World
+// :page-aliases: ROOT:getting-started.adoc,ROOT:start-using.adoc,ROOT:hello-couchbase.adoc,ROOT:start-using-sdk.adoc
+:page-toclevels: 3
+:description: Install, connect, try. A quick start guide to get you up and running with Couchbase and the {name-sdk}.
+:forum-link: https://www.couchbase.com/forums/c/node-js-sdk/12
+:page-partial:
 
-include::project-docs:partial$attributes.adoc[]
+// Note to editors
+//
+// This page pulls in content from
+// https://github.com/couchbase/docs-sdk-common/blob/release/7.6/modules/shared/partials/start-using-sdk.adoc
+//
+// and code samples from
+// https://github.com/couchbase/docs-sdk-nodejs/tree/release/4.2/modules/devguide/examples/nodejs
+//
+// It can be seen built at
+// https://docs.couchbase.com/nodejs-sdk/current/hello-world/start-using-sdk.html
+
 
 [abstract]
 {description}
 
-The Couchbase SDK API 3 (implemented by Node.js SDK 3._x_ and 4._x_) is a complete rewrite of the API, reducing the number of overloads to present a simplified surface area, and adding support for Couchbase Server features like xref:concept-docs:collections.adoc[Collections and Scopes] (available from Couchbase Server 7.0).
+Couchbase has a simple interface for creating and modifying records in a document,
+based upon the *collection* into which the documents are organized.
+You can read more about data modeling <<data-modeling,below>>,
+but first let's look at those data operations, and installing the {name-sdk}.
 
-Node.js SDK 4._x_ implements the same SDK API 3 bindings, but the internals are completely rewritten -- 
-using the Couchbase++ library rather than libcouchbase -- to allow upcoming new features such as transactions, and fix some long-standing bugs. 
-Please note any xref:project-docs:migrating-sdk-code-to-3.n.adoc#sdk4-specifics[caveats] in the migration guide.
 
-In this guide, you will learn:
-
-* How to xref:connect[connect to Couchbase Capella or Couchbase Server].
-
-* How to xref:add-and-retrieve-documents[add and retrieve Documents].
-
-* How to xref:sql-lookup[lookup documents] with the {sqlpp_url}[{sqlpp} (formerly N1QL)] query language.
-
-== Hello Couchbase
-
-We will go through the code sample step by step, but for those in a hurry to see it, here it is:
-
-[{tabs}] 
-==== 
-Couchbase Capella (JavaScript)::
-+
---
-To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password and bucket name.
-
+.Upsert with a Unique ID
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tags=**]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=upsert,indent=0]
 ----
+
+`upsert` inserts (creates) the document if it does not exist, or replaces it if it does.
+We'll explore creating and retrieving data records in more detail <<create-read-update-delete,below>>,
+after walking through a quick installation.
+
+
+== Before You Start
+
+Couchbase Capella, our Database-as-a-Service, lets you get on with what matters, while we take care of the administration for you.
+Alternately, if you need to control every aspect of deployment --
+or just want to run the Server in a VM on your laptop --
+there are several self-managed options available:
+
+[tabs]
+====
+Couchbase Capella::
++
+--
+If you haven't already got a cluster set up, the easiest route is to https://cloud.couchbase.com/sign-up[sign up to Couchbase Capella and deploy a free tier cluster^],
+then come back to this page.
+Make a note of the xref:cloud:get-started:connect.adoc[endpoint] to connect to,
+and remember the credentials for the user that you set up.
 --
 
-Couchbase Capella (TypeScript)::
-+ 
--- 
-To connect to xref:cloud::index.adoc[Couchbase Capella], be sure to get the correct endpoint as well as user, password and bucket name.
-
-[source,typescript]
-----
-include::example$cloud.ts[tags=**]
-----
+Self-Managed Couchbase Server::
++
 --
+Install Couchbase Server locally, or in your private Cloud:
 
-Local Couchbase Server::
-+ 
---
-As well as the Node.js SDK, and a running instance of Couchbase Server, you will need to load up the Travel Sample Bucket
-using either the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface]
-or the xref:7.1@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-cli[command line].
+* xref:{version-server}@server:install:get-started.adoc[Deployment overview]
+* xref:{version-server}@server:install:getting-started-docker.adoc[Docker Install]
+* xref:operator::overview.adoc[Couchbase Autonomous Operator]
+** xref:operator::install-kubernetes.adoc[Kubernetes]
+** xref:operator::install-openshift.adoc[Openshift]
+* xref:{version-server}server:cloud:couchbase-cloud-deployment.adoc[Cloud Marketplace]:
+** xref:{version-server}@server:cloud:couchbase-aws-marketplace.adoc[AWS Marketplace]
+** xref:{version-server}@server:cloud:couchbase-azure-marketplace.adoc[Azure Marketplace]
+** xref:{version-server}@server:cloud:couchbase-gcp-cloud-launcher.adoc[GCP Marketplace]
 
-[source,nodejs]
-----
-include::example$start-using.js[tags=**]
-----
+For the example code below to run, you'll need the username and password of the Administrator user that you create, and the IP address of at least one of the nodes of the cluster.
 --
 ====
 
-The Couchbase Capella free tier version comes with the Travel Sample Bucket, and its Query indexes, loaded and ready.
+// Script the docs!
+// Can any of the SDK installations be scripted?
 
-== Quick Installation
+=== Prerequisites
+
+* The Node.js SDK is tested against LTS versions of Node.js --
+see the xref:project-docs:compatibility.adoc[compatibility docs].
+
+The code examples also assume:
+
+[tabs]
+====
+Couchbase Capella::
++
+--
+* You have signed up to https://cloud.couchbase.com/sign-up[Couchbase Capella].
+
+* You have created your own bucket, or loaded the Travel Sample dataset.
+Note, the Travel Sample dataset is installed automatically when deploying a Capella free tier cluster.
+
+* A user is created with permissions to access the cluster (at least Application Access permissions).
+See the xref:cloud:get-started:cluster-and-data.adoc#credentials[Capella connection page] for more details.
+
+IMPORTANT: Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to cluster resources.
+For the purposes of this guide, you can use the *Organization Owner* role automatically assigned to your account during installation of the Capella cluster.
+In production, Couchbase strongly recommends setting up users with more granular access roles as a best practice for data security.
+--
+
+Self-Managed Couchbase Server::
++
+--
+* xref:{version-server}@server:getting-started/do-a-quick-install.adoc[Couchbase Server] is installed and accessible locally.
+
+* You have created your own bucket, or loaded the Travel Sample dataset using the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface].
+
+* A user is created with permissions to access your cluster (at least Application Access permissions).
+See xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups and Roles] for more details.
+
+IMPORTANT: Couchbase Server uses xref:{version-server}@server:learn:security/roles.adoc[Role-Based Access Control (RBAC)] to control access to cluster resources.
+In this guide we suggest using the *Full Admin* role created during setup of your local Couchbase Server cluster.
+In production, Couchbase strongly recommends setting up users with more granular access roles as a best practice for data security.
+--
+====
+
+== Installation
+
+More details of the installation process are in the
+xref:project-docs:sdk-full-installation.adoc[full installation guide].
 
 [source,console]
 ----
@@ -76,8 +129,6 @@ $ npm install couchbase --save
 ----
 
 This will download the latest Couchbase Node.js SDK, and add a dependency to your `package.json`.
-
-Information on new features, fixes, known issues, as well as information on how to install older release versions is in the xref:project-docs:sdk-release-notes.adoc[release notes], and a fuller installation guide can be found xref:project-docs:sdk-full-installation.adoc[here].
 
 === TypeScript Support
 
@@ -88,367 +139,349 @@ If you intend to use `TypeScript` instead of `JavaScript`, then also do the foll
 $ npm install -g typescript ts-node
 ----
 
-== Prerequisites
+// === IDE Plugins
+//
+// To make development easier, Couchbase plugins are available for VSCode and the IntelliJ family of IDEs and editors.
+// For links and more information on these and other integrations across the {name_platform} ecosystem,
+// check out the xref:project-docs:third-party-integrations.adoc[] page.
 
-The following code samples assume:
+=== Grab the Code
 
-[{tabs}]
-====
-Couchbase Capella::
-+
---
-* You have signed up to https://cloud.couchbase.com/sign-up[Couchbase Capella].
+If you're all set up and in a real hurry, just grab this code sample and add in your Capella details.
 
-* You have created your own bucket, or loaded the Travel Sample dataset.
-Note, the Travel Sample dataset is installed automatically when deploying a Capella free tier cluster..
-
-* A user is created with permissions to access the cluster (at least Application Access permissions).
-See the xref:cloud:get-started:cluster-and-data.adoc#credentials[Capella connection page] for more details.
-
-IMPORTANT: Couchbase Capella uses xref:cloud:organizations:organization-projects-overview.adoc[Roles] to control user access to database resources.
-For the purposes of this guide, you can use the *Organization Owner* role automatically assigned to your account during installation of the Capella cluster.
-In a production scenario, we strongly recommend setting up users with more granular access roles as a best practice.
---
-
-Local Couchbase Server::
-+
---
-* xref:{version-server}@server:getting-started/do-a-quick-install.adoc[Couchbase Server] is installed and accessible locally.
-
-* You have created your own bucket, or loaded the Travel Sample dataset using the xref:{version-server}@server:manage:manage-settings/install-sample-buckets.adoc#install-sample-buckets-with-the-ui[Web interface].
-
-* A user is created with permissions to access your cluster (at least Application Access permissions).
-See xref:{version-server}@server:manage:manage-security/manage-users-and-roles.adoc[Manage Users, Groups and Roles] for more details.
-
-IMPORTANT: Couchbase Server uses xref:{version-server}@server:learn:security/roles.adoc[Role Based Access Control (RBAC)] to control access to resources.
-In this guide we suggest using the *Full Admin* role created during setup of your local Couchbase Server cluster.
-For production client code, you will want to use more appropriate, restrictive settings.
---
-====
-
-== Step by Step
-
-Create an empty file named `index.js`, or alternatively `index.ts` for TypeScript, and walk through step by step.
-
-Here are all the imports that you will need to run the sample code.
-
-[{tabs}]
+.Complete Hello World code sample [*Click to open or collapse the listing*]
+[%collapsible]
+=====
+[tabs]
 ====
 JavaScript::
-+ 
--- 
++
+--
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=imports,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[]
 ----
 --
 
 TypeScript::
-+ 
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-imports,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[]
 ----
 --
 ====
+=====
 
-Now, create an empty `main()` function.
+Otherwise, read on as we introduce the CRUD API and connection to Capella or self-managed Couchbase Server.
 
-[source,javascript,indent=0]
-----
-async function main() {
-  // add code here...
-}
-----
+TIP: There's a *View* link to the complete sample code on GitHub above each of the snippets on these SDK pages, and a *Copy* icon to grab just the snippet shown.
 
-We will update this function as we go along the steps in this guide.
+NOTE: The code samples on this page use ESModules, but the Node.js SDK is fully compatible with CommonJS as well. Simply adjust the import syntax as needed.
 
-=== Connect
+== Connect to your Database
 
-Connect to your cluster by calling the `connect()` function and pass it your connection details.
-The basic connection details that you’ll need are given below -- for more background information, see xref:howtos:managing-connections.adoc[].
+Connect to your Couchbase Capella operational cluster (or your local Couchbase Cluster, if you are trying out self-managed Couchbase).
 
-[{tabs}]
+[tabs]
 ====
 Couchbase Capella (JavaScript)::
-+ 
--- 
-From version 4.1, the Node.js SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
-You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
-
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tag=connect,indent=0]
-----
-
-When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
-SDK 4.2 introduces a `wanDevelopment` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
-Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
-
-CAUTION: The Configuration Profiles feature is currently a xref:nodejs-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
---
-
-Couchbase Capella (TypeScript)::
-+ 
---
-From version 4.1, the Node.js SDK includes Capella’s standard certificates by default, so you don't need any additional configuration.
-You do need to enable TLS, which can be done by simply using `couchbases://` in the connection string as in this example.
-
-[source,typescript,indent=0]
-----
-include::example$cloud.ts[tag=ts-connect]
-----
-
-When accessing Capella from a different Wide Area Network or Availability Zone, you may experience latency issues with the default connection settings.
-SDK 4.2 introduces a `wanDevelopment` Configuration Profile, which provides pre-configured timeout settings suitable for working in high latency environments.
-Basic usage is shown in the example above, but if you want to learn more see xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
-
-CAUTION: The Configuration Profiles feature is currently a xref:nodejs-sdk:project-docs:compatibility.adoc#interface-stability[Volatile API] and may be subject to change.
---
-
-Local Couchbase Server::
-+ 
++
 --
 [source,javascript]
 ----
-include::example$start-using.js[tag=connect,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=connect,indent=0]
 ----
 
-For developing locally on the same machine as Couchbase Server, your URI can be `couchbase://localhost` as shown here.
-For production deployments, you will want to use a secure server, with `couchbases://`.
---
-====
-
-Following successful authentication, add this code snippet to access your `Bucket`:
-
-[{tabs}]
-====
-JavaScript::
-+ 
---
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tag=bucket,indent=0]
-----
+Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
 --
 
-TypeScript::
-+ 
+Couchbase Capella (Typescript)::
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-bucket,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=connect,indent=0]
 ----
+
+Note, the client certificate for connecting to a Capella cluster is included in the SDK installation.
 --
-====
 
-=== Add and Retrieve Documents
-
-The Node.js SDK supports full integration with the xref:concept-docs:collections.adoc[Collections] feature introduced in Couchbase Server 7.0.
-_Collections_ allow documents to be grouped by purpose or theme, according to a specified _Scope_.
-
-Here we refer to the `users` collection within the `tenant_agent_00` scope from the Travel Sample bucket as an example, but you may replace this with your own data.
-
-[{tabs}]
-====
-JavaScript::
-+ 
+Self-Managed Couchbase Server (Javascript)::
++
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=collection,indent=0]
+include::devguide:example$nodejs/self-managed-connection-crud.js[tag=connect,indent=0]
 ----
 --
 
-TypeScript::
-+ 
+Self-Managed Couchbase Server (Typescript)::
++
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/self-managed-connection-crud.ts[tag=connect,indent=0]
+----
+--
+====
+
+
+The `ClientOptions` are covered more fully on the xref:ref:client-settings.adoc[Client Settings] page.
+
+For a deeper look at connection options, read xref:howtos:managing-connections.adoc[].
+
+TIP: The connection code for getting started uses the Administrator password that you were given during set up.
+In any production app you should create a role restricted to the permissions needed for your app
+// --
+// more on this in xref:concept-docs:best-practices.adoc#roles-and-rbac[the Security documentation].
+
+=== Opening a Bucket
+
+Following successful authentication, open the bucket with:
+[tabs]
+====
+
+Javascript::
++
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/capella_connection_crud.js[tag=bucket,indent=0]
+----
+--
+
+Typescript::
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-collection,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=bucket,indent=0]
 ----
 --
+
 ====
 
-The code shows how you would use a named collection and scope.
-A named or default collection will provide the same functionality as bucket-level operations did in previous versions of Couchbase Server.
+*Collections* allow documents to be grouped by purpose or theme, according to a specified *scope* -- see data modeling, <<data-modeling,below>>.
+Here we will use the `airport` collection within the `inventory` scope from `travel-sample` bucket as an example.
 
-NOTE: The `defaultCollection` must be used when connecting to a 6.6 cluster or earlier.
-
-[{tabs}]
+[tabs]
 ====
-JavaScript::
-+ 
+
+Javascript::
++
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=default-collection,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.js[tag=collection,indent=0]
 ----
 --
 
-TypeScript::
-+ 
+Typescript::
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-default-collection,indent=0]
+include::devguide:example$nodejs/capella_connection_crud.ts[tag=collection,indent=0]
 ----
 --
+
 ====
 
-xref:howtos:kv-operations.adoc[Document operations], such as storing and retrieving documents, can be done using `Collection.upsert()` and `Collection.get()`.
+== Create, Read, Update, Delete
 
-Add the following code to create a new document and retrieve it:
+Couchbase documents are organized into buckets, scopes, and collections.
+https://en.wikipedia.org/wiki/CRUD[CRUD operations^] -- Create, Read, Update, Delete -- can be performed upon documents in a collection.
 
-[{tabs}]
+
+=== Insert (Create) and Upsert
+
+`insert` and `upsert` will both create a new document.
+The difference between the two is that if a document with that key already exists, the `insert` operation will fail,
+// throwing `DocumentExistsException` --
+while the `upsert` operation will succeed, replacing the content.
+
+We need to provide a unique ID as the key, and we'll use a UUID here:
+
+.Creating a new document
+[tabs]
 ====
-JavaScript::
-+ 
+
+Javascript::
++
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=upsert-get,indent=0]
+include::devguide:example$nodejs/crud-ops.js[tag=upsert,indent=0]
 ----
 --
 
-TypeScript::
-+ 
+Typescript::
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-upsert-get,indent=0]
+include::devguide:example$nodejs/crud-ops.ts[tag=upsert,indent=0]
 ----
 --
+
 ====
 
-=== {sqlpp} Lookup
+=== Get (Read)
 
-Couchbase {sqlpp} queries can be performed at the `Cluster` or `Scope` level by invoking `Cluster.query()` or `Scope.query()`.
+The `get` method reads a document from a collection. If the collection does not have a document with this ID, the `get` method also throws `DocumentNotFoundError`.
 
-Cluster level queries require you to specify the fully qualified keyspace each time (e.g. `travel-sample.inventory.airline`).
-However, with a Scope level query you only need to specify the Collection name -- which in this case is `airline`:
-
-[{tabs}]
+[tabs]
 ====
-JavaScript::
-+ 
+
+Javascript::
++
 --
 [source,javascript]
 ----
-include::devguide:example$nodejs/cloud.js[tag=query,indent=0]
+include::devguide:example$nodejs/crud-ops.js[tag=get,indent=0]
 ----
 --
 
-TypeScript::
-+ 
---
-[source,typescript,indent=0]
-----
-include::example$cloud.ts[tag=ts-query,indent=0]
-----
---
-====
-
-=== Execute!
-
-To ensure that we can run the main function, we add this last line of code:
-
-[{tabs}]
-====
-JavaScript::
-+ 
---
-[source,javascript]
-----
-include::devguide:example$nodejs/cloud.js[tag=run-main,indent=0]
-----
---
-
-TypeScript::
-+ 
+Typescript::
++
 --
 [source,typescript]
 ----
-include::example$cloud.ts[tag=ts-run-main,indent=0]
+include::devguide:example$nodejs/crud-ops.ts[tag=get,indent=0]
 ----
 --
+
 ====
 
-Now we can run our code: 
+=== Replace (Update)
 
-[{tabs}]
-====
-JavaScript::
-+ 
---
-[source,console]
-----
-$ node index.js
-----
---
-
-TypeScript::
-+ 
---
-[source,console]
-----
-$ ts-node index.ts
-----
---
+.The replace method updates the value of an existing document
+[tabs]
 ====
 
-The results you should expect are as follows:
-
-[source,console]
+Javascript::
++
+--
+[source,javascript]
 ----
-Get Result: GetResult {
-  content: {
-    type: 'user',
-    name: 'Michael',
-    email: 'michael123@test.com',
-    interests: [ 'Swimming', 'Rowing' ]
-  },
-  cas: Cas<1665739583483674624>,
-  expiryTime: undefined
-}
-Query Results:
-{ name: '40-Mile Air' }
-{ name: 'Texas Wings' }
-{ name: 'Atifly' }
-{ name: 'Locair' }
-{ name: 'SeaPort Airlines' }
-{ name: 'Alaska Central Express' }
-{ name: 'AirTran Airways' }
-{ name: 'U.S. Air' }
-{ name: 'PanAm World Airways' }
-{ name: 'Bemidji Airlines' }
+include::devguide:example$nodejs/crud-ops.js[tag=replace-options,indent=0]
 ----
+--
 
+Typescript::
++
+--
+[source,typescript]
+----
+include::devguide:example$nodejs/crud-ops.ts[tag=replace-options,indent=0]
+----
+--
+
+====
+
+CAUTION: When you replace a document, it's usually good practice to use xref:howtos:concurrent-document-mutations.adoc[optimistic locking].
+Otherwise, changes might get lost if two people change the same document at the same time.
+
+=== Remove (Delete)
+
+The remove method deletes a document from a collection:
+
+[tabs]
+====
+
+Javascript::
++
+--
+[source,javascript]
+----
+include::devguide:example$nodejs/crud-ops.js[tag=remove,indent=0]
+----
+--
+
+Typescript::
++
+--
+[source,typescript]
+----
+include::devguide:example$nodejs/crud-ops.ts[tag=remove,indent=0]
+----
+--
+
+====
+
+
+== Data Modeling
+
+Documents are organized into collections -- collections of documents that belong together.
+You get to decide what it means to "belong."
+Developers usually put documents of the same type in the same collection.
+
+For example, imagine you have two types of documents: customers and invoices.
+You could put the customer documents in a collection called `customers`, and the invoice documents in a collection called `invoices`.
+
+Each document belongs to exactly one collection.
+A document's ID is unique _within_ the collection.
+
+Different scopes can hold collections with different names.
+There is no relationship between collections in different scopes.
+Each collection belongs to just one scope and
+a collection's name is unique within the scope.
+
+
+More details can be found on the xref:concept-docs:data-model.adoc[Data Model page].
+// The xref:student-record-developer-tutorial.adoc[Student Records Tutorial] gives an introduction to data modeling in a document database alongside using the {name-sdk}.
+
+
+== What Next?
+
+////
+Query and KV -
+both
+- but different emphasis on modelling objects....
+////
+
+
+
+=== Help and Troubleshooting
+
+* xref:howtos:troubleshooting-cloud-connections.adoc[Troubleshooting common network problems].
+* {forum-link}[Help forum].
+* https://discord.com/channels/915294689681362954/1217642561645318194[Discord channel].
+* Read the xref:howtos:error-handling.adoc[error handling page].
+* xref:cloud:get-started:capella-iq/get-started-with-iq.adoc#generate-sdk-code-preview[Get help from Couchbase iQ].
+
+// === Next Steps
+
+// * Take a look at the xref:hello-world:sample-application.adoc[].
+// * xref:concept-docs:data-durability-acid-transactions.adoc[Learn more about the Data Service].
+// * xref:concept-docs:querying-your-data.adoc[Discover SQL++] -- our SQL-family querying language.
+// * Explore some of the xref:project-docs:third-party-integrations.adoc[third party integrations] with Couchbase and the {name_platform} SDK, across the {name_platform} ecosystem.
+
+
+////
 == Next Steps
 
 Now you're up and running, try one of the following:
 
 * Our xref:hello-world:sample-application.adoc[Travel Sample Application] demonstrates all the basics you need to know;
-* Explore xref:howtos:kv-operations.adoc[Key Value Operations] against a document database;
-* Or xref:howtos:n1ql-queries-with-sdk.adoc[Query] with our {sqlpp} language;
-// * Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
-// * A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
+* Explore xref:howtos:kv-operations.adoc[Key Value Operations] (CRUD) against a document database;
+* Or xref:howtos:sqlpp-queries-with-sdk.adoc[Query] with our SQL-based {sqlpp} query language;
+* Try longer-running queries with our xref:howtos:analytics-using-sdk.adoc[Analytics Service];
+* A xref:howtos:full-text-searching-with-sdk.adoc[Full Text Search];
 * Or read up on xref:concept-docs:data-services.adoc[which service fits your use case].
 
 === Additional Resources
 
-The API reference is generated for each release and the latest can be found https://docs.couchbase.com/sdk-api/couchbase-node-client/index.html[here].
+The Scala SDK includes three APIs.
+The examples above show the simple blocking API, for simplicity, but you can also perform all operations in an async style using Scala `Future`, and a reactive style using Project Reactor `SMono` and `SFlux`.
+Please see xref:howtos:concurrent-async-apis.adoc[Choosing an API] for more details.
 
-Links to each release are to be found in the xref:project-docs:sdk-release-notes.adoc[individual release notes].
+The API reference is generated for each release and the latest can be found https://docs.couchbase.com/sdk-api/couchbase-scala-client/com/couchbase/client/scala/index.html[here].
 
-The xref:project-docs:migrating-sdk-code-to-3.n.adoc[Migrating from SDK API 2 to 3] page highlights the main differences to be aware of when migrating your code.
-
-Couchbase welcomes community contributions to the Node.js SDK.
-The Node.js SDK source code is available on https://github.com/couchbase/couchnode[GitHub].
-
-// https://ottomanjs.com/[Ottoman] is an ODM built for Couchbase and Node.js.
-// Ottoman's goal is to provide a better development experience while using Couchbase, bringing to developers a reliable tool to build systems that are easy to design, maintain, and scale.
+Couchbase welcomes community contributions to the Scala SDK.
+The SDK source code is available on https://github.com/couchbase/couchbase-jvm-clients[GitHub].
 
 === Troubleshooting
 
@@ -457,4 +490,5 @@ If you're running the SDK on your laptop against a Capella cluster, see further 
 ** Notes on xref:ref:client-settings.adoc#constrained-network-environments[Constrained Network Environments].
 ** xref:project-docs:compatibility.adoc#network-requirements[Network Requirements].
 ** If you have a consumer-grade router which has problems with DNS-SRV records review our xref:howtos:troubleshooting-cloud-connections.adoc#troubleshooting-host-not-found[Troubleshooting Guide].
-* Our https://forums.couchbase.com/c/node-js-sdk/12[community forum] is a great source of help.
+* Our https://forums.couchbase.com/c/scala-sdk/37[community forum] is a great source of help.
+////

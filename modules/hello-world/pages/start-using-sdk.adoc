@@ -1,5 +1,5 @@
 = Hello World
-// :page-aliases: ROOT:getting-started.adoc,ROOT:start-using.adoc,ROOT:hello-couchbase.adoc,ROOT:start-using-sdk.adoc
+:page-aliases: ROOT:getting-started.adoc,ROOT:start-using.adoc,ROOT:hello-couchbase.adoc,ROOT:start-using-sdk.adoc
 :page-toclevels: 3
 :description: Install, connect, try. A quick start guide to get you up and running with Couchbase and the {name-sdk}.
 :forum-link: https://www.couchbase.com/forums/c/node-js-sdk/12
@@ -11,7 +11,7 @@
 // https://github.com/couchbase/docs-sdk-common/blob/release/7.6/modules/shared/partials/start-using-sdk.adoc
 //
 // and code samples from
-// https://github.com/couchbase/docs-sdk-nodejs/tree/release/4.2/modules/devguide/examples/nodejs
+// https://github.com/couchbase/docs-sdk-nodejs/tree/temp/4.4/modules/devguide/examples/nodejs
 //
 // It can be seen built at
 // https://docs.couchbase.com/nodejs-sdk/current/hello-world/start-using-sdk.html
